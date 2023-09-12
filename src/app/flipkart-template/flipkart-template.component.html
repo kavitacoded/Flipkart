@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <header class="d-flex p-2 justify-content-between">
+        <div>
+            <h2>Shopper</h2>
+        </div>
+
+
+        <nav>
+            <button (click)="categoriesChanged('all')" class="btn">Home</button>
+            <button (click)="categoriesChanged('electronics')" class="btn">Electronics</button>
+            <button (click)="categoriesChanged('jewelery')" class="btn">Jwelerry</button>
+            <button (click)="categoriesChanged('')" class="btn">Mens Fashion</button>
+            <button (click)="categoriesChanged('')" class="btn">Womens Fashion</button>
+
+        </nav>
+        <div>
+            <button class="btn"><span><i class="bi bi-search"></i></span></button>
+            <button class="btn"><span><i class="bi bi-heart"></i></span></button>
+            <button class="btn"><span><i class="bi bi-person"></i></span></button>
+            <!-- <button class="btn position-relative"><span><i class="bi bi-cart"></i></span>
+     <span><i class="badge rounded rounded-circle bg-danger text-white position-absolute"></i></span></button> -->
+            <button (click)="ToggleCart()" class="btn position-relative"><span class="bi bi-cart"></span><span
+                    class="badge rounded rounded-circle bg-danger text-white position-absolute">
+                </span>{{cartItemcounts}}</button>
+        </div>
+    </header>
+    <div class="bg-dark text-white text-center p-2 m-2">
+        Happy Holiday Deals <span> <i class="bi bi-heart"></i></span>
+    </div>
+    <section class="mt-3 row">
+        <nav class="col-3">
+            <div>
+                <label class="form-label"><b>Select Category</b></label>
+
+            </div>
+            <select name="" id="" class="form-select" ngModel #categoryItem="ngModel"
+                (change)="categoriesChanged(categoryItem.value)">
+                <option value="" *ngFor="let category of categories" [value]="category">{{category |uppercase}}</option>
+            </select>
+            <div class="mt-2" *ngIf="isCartVisible">
+                <h4>Cart Items</h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of cartItems; let i=index">
+                                <td>{{product.title}}</td>
+                                <td>
+                                    <img [src]="product.image" width="50px" height="50px" alt="">
+                                </td>
+                                <td><button (click)="RemoveClick(i)" class="btn btn-danger"><span class="bi bi-trash-fill"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </nav>
+        <main class="col-9 d-flex flex-wrap overflow-auto" style="height: 450px;">
+            <div *ngFor="let product of products" class="card p-2 m-2" style="width: 200px;">
+                <img [src]="product.image" alt="" height="160px" class="card-img-top">
+                <div class="card-header" style="height: 180px;">
+                    <p>{{product.title}}</p>
+                </div>
+                <div class="card-body">
+                    <dl>
+                        <dt>Price</dt>
+                        <dd>{{product.price}}</dd>
+                        <dt>Rating</dt>
+                        <dd>
+                            <span class="bi bi-star-fill text-success">
+                                {{product.rating.rate}} | {{product.rating.count}}
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info w-100" (click)="addToCart(product.id)">
+                        <span class="bi bi-cart4"></span>Add to cart
+                    </button>
+                </div>
+            </div>
+        </main>
+    </section>
+</div>
